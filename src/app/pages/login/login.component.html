@@ -37,31 +37,50 @@
           <div class="text-center text-muted mb-4">
             <small>Or sign in with credentials</small>
           </div>
-          <form role="form">
-            <div class="form-group mb-3">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                </div>
-                <input class="form-control" placeholder="Email" type="email">
+          <form class="register-form" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+            <label>Email</label>
+            <div class="input-group form-group form-group-no-border">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="nc-icon nc-email-85"></i>
+                </span>
               </div>
+
+              <input name="email" type="email" class="form-control" placeholder="Email"
+                     [(ngModel)]="form.email" required #email="ngModel" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="email.errors && f.submitted">
+              <div *ngIf="email.errors.required">
+                email is required 
+              </div>
+              <div *ngIf="email.errors.pattern">
+                Email must be a valid email address
+              </div>
+
+            </div>
+            <label>Password</label>
+            <div class="input-group form-group form-group-no-border">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="nc-icon nc-key-25"></i>
+                </span>
+              </div>
+              <input name="password" type="password" class="form-control" placeholder="Password"
+                [(ngModel)]="form.password" required minlength="6" #password="ngModel"
+                autocomplete="off">
+
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="password.errors && f.submitted">
+              <div *ngIf="password.errors.required">Password is required</div>
+              <div *ngIf="password.errors.minlength">
+                Password must be at least 6 characters
+              </div>
+            </div>
+            <div *ngIf="this.invalidCredentials">
+              invalid credentials
             </div>
             <div class="form-group">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                </div>
-                <input class="form-control" placeholder="Password" type="password">
-              </div>
-            </div>
-            <div class="custom-control custom-control-alternative custom-checkbox">
-              <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
-              <label class="custom-control-label" for=" customCheckLogin">
-                <span class="text-muted">Remember me</span>
-              </label>
-            </div>
-            <div class="text-center">
-              <button type="button" class="btn btn-primary my-4">Sign in</button>
+              <button class="btn btn-danger btn-block btn-round">Login</button>
             </div>
           </form>
         </div>

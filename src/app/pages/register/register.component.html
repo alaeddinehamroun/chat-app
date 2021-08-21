@@ -38,44 +38,69 @@
           <div class="text-center text-muted mb-4">
             <small>Or sign up with credentials</small>
           </div>
-          <form role="form">
-            <div class="form-group">
-              <div class="input-group input-group-alternative mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                </div>
-                <input class="form-control" placeholder="Name" type="text">
+          <div class="alert alert-danger" role="alert" *ngIf="f.submitted && this.error">
+            {{this.error}}
+          </div>
+          <form class="register-form" name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+            <label>Username</label>
+            <div class="input-group form-group form-group-no-border">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="nc-icon nc-single-02"></i>
+                </span>
               </div>
+
+              <input name="username" type="text" class="form-control" placeholder="username"
+                     [(ngModel)]="form.username" required #username="ngModel">
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">
+              <div *ngIf="username.errors.required">
+                username is required 
+              </div>
+            </div>
+            <label>Email</label>
+            <div class="input-group form-group form-group-no-border">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="nc-icon nc-email-85"></i>
+                </span>
+              </div>
+
+              <input name="email" type="email" class="form-control" placeholder="Email" 
+                     [(ngModel)]="form.email" required #email="ngModel" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="email.errors && f.submitted">
+              <div *ngIf="email.errors.required">
+                email is required 
+              </div>
+              <div *ngIf="email.errors.pattern">
+                Email must be a valid email address
+              </div>
+
+            </div>
+            <label>Password</label>
+            <div class="input-group form-group form-group-no-border">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="nc-icon nc-key-25"></i>
+                </span>
+              </div>
+              <input name="password" type="password" class="form-control" placeholder="Password" 
+                [(ngModel)]="form.password" required minlength="6" #password="ngModel"
+                autocomplete="off">
+
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="password.errors && f.submitted">
+              <div *ngIf="password.errors.required">Password is required</div>
+              <div *ngIf="password.errors.minlength">
+                Password must be at least 6 characters
+              </div>
+            </div>
+            <div *ngIf="this.error">
+              error
             </div>
             <div class="form-group">
-              <div class="input-group input-group-alternative mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                </div>
-                <input class="form-control" placeholder="Email" type="email">
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                </div>
-                <input class="form-control" placeholder="Password" type="password">
-              </div>
-            </div>
-            <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>
-            <div class="row my-4">
-              <div class="col-12">
-                <div class="custom-control custom-control-alternative custom-checkbox">
-                  <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                  <label class="custom-control-label" for="customCheckRegister">
-                    <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="text-center">
-              <button type="button" class="btn btn-primary mt-4">Create account</button>
+              <button class="btn btn-danger btn-block btn-round">Register</button>
             </div>
           </form>
         </div>
